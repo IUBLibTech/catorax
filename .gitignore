@@ -23,3 +23,9 @@
 .byebug_history
 /.ruby-version
 .ruby-version
+
+# Ignore IDE files
+.idea
+
+# Ignore local secrets
+.secrets.sh
