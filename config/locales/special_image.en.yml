@@ -1,0 +1,8 @@
+en:
+  hyrax:
+    icons:
+      special_image:     'fa fa-file-text-o'
+    select_type:
+      special_image:
+        description:        "Special Image Works"
+        name:               "Special Image"

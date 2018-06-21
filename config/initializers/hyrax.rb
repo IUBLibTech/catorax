@@ -5,6 +5,8 @@ Hyrax.config do |config|
   config.register_curation_concern :bib_record
   # Injected via `rails g hyrax:work PagedResource`
   config.register_curation_concern :paged_resource
+  # Injected via `rails g hyrax:work SpecialImage`
+  config.register_curation_concern :special_image
   # Register roles that are expected by your implementation.
   # @see Hyrax::RoleRegistry for additional details.
   # @note there are magical roles as defined in Hyrax::RoleRegistry::MAGIC_ROLES
