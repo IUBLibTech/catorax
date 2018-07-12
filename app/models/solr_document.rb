@@ -25,4 +25,6 @@ class SolrDocument
   # Do content negotiation for AF models. 
 
   use_extension( Hydra::ContentNegotiation )
+
+  attribute :woodcutter, Solr::Array, solr_name('woodcutter')
 end
