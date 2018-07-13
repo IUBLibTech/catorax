@@ -1,0 +1,8 @@
+it:
+  hyrax:
+    icons:
+      jazz_tune:     'fa fa-file-text-o'
+    select_type:
+      jazz_tune:
+        description:        "Jazz tune opere"
+        name:               "Jazz Tune"

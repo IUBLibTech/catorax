@@ -1,0 +1,10 @@
+zh:
+  hyrax:
+    icons:
+      jazz_tune:     'fa fa-file-text-o'
+    select_type:
+      jazz_tune:
+        # TODO: translate `human_name` into Chinese
+        description:        "Jazz tune 作品"
+        name:               "Jazz Tune"
+        # TODO: translate `human_name` into Chinese
