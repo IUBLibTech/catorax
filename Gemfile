@@ -46,6 +46,7 @@ group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
   gem 'fcrepo_wrapper'
   gem 'rspec-rails'
+  gem 'vcr'
 end
 
 group :development do
@@ -73,3 +74,4 @@ gem 'omniauth-cas'
 gem 'ldap_groups_lookup', '~> 0.4.0'
 gem 'hydra-role-management'
 gem 'riiif', '~> 1.1'
+gem 'marc', '~> 1.0.0'
