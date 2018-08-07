@@ -47,6 +47,7 @@ group :development, :test do
   gem 'fcrepo_wrapper'
   gem 'rspec-rails'
   gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
