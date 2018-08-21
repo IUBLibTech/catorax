@@ -63,8 +63,8 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'hyrax', '~> 2.1.0'
-gem 'rsolr', '~> 2.0'
+gem 'hyrax'
+gem 'rsolr'
 gem 'jquery-rails'
 gem 'devise'
 gem 'devise-i18n'
@@ -73,4 +73,4 @@ gem 'omniauth'
 gem 'omniauth-cas'
 gem 'ldap_groups_lookup', '~> 0.4.0'
 gem 'hydra-role-management'
-gem 'riiif', '~> 1.1'
+gem 'riiif'
