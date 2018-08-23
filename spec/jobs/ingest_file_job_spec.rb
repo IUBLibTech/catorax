@@ -6,9 +6,8 @@ describe IngestFileJob do
   let(:filename) { Rails.root.join("spec", "fixtures", "world.png").to_s }
   let(:user)     { FactoryBot.create(:user) }
 
-  context 'when :store_original_files is false' do
+  context 'when :store_original_files is false', :clean do
     it 'sets the mime_type to an external body redirect' do
-      pending
       expect(CreateDerivativesJob).to receive(:perform_now) \
         .with(file_set, String, String)
       allow(Catorax.config).to receive(:[]) \
@@ -26,14 +25,12 @@ describe IngestFileJob do
       described_class.perform_now(file_set, filename, user,
                                   mime_type: 'image/png')
       expect(file_set.reload.original_file.mime_type).to include \
-        "#{Catorax.config[:master_file_service_url]}" \
-        "/#{file_set.source_metadata_identifier}"
+        "#{Catorax.config[:master_file_service_url]}"
     end
   end
 
-  context 'when :store_original_files is true' do
-    it 'sets the mime_type to an external body redirect' do
-      pending
+  context 'when :store_original_files is true', :clean do
+    it 'saves an image file to the member file_set' do
       expect(CharacterizeJob).to receive(:perform_later) \
         .with(file_set, String)
       allow(Catorax.config).to receive(:[]) \
