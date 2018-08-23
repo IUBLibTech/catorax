@@ -1,5 +1,3 @@
-#require 'pumpkin/works/services/add_external_file_to_file_set'
-
 class IngestFileJob < ActiveJob::Base
   queue_as Hyrax.config.ingest_queue_name
 
@@ -17,7 +15,7 @@ class IngestFileJob < ActiveJob::Base
     local_file =
       Hydra::Derivatives::IoDecorator.new(File.open(filepath, "rb"))
     local_file.mime_type = opts.fetch(:mime_type, nil)
-    local_file.original_name = opts.fetch(:filename, File.basename(filepath))
+    local_file.original_filename = opts.fetch(:filename, File.basename(filepath))
 
     # Tell AddFileToFileSet service to skip versioning because versions will
     # be minted by VersionCommitter (called by
@@ -28,22 +26,23 @@ class IngestFileJob < ActiveJob::Base
                                           relation,
                                           versioning: false)
     else
-      Pumpkin::Works::AddExternalFileToFileSet.call(file_set,
-                                                    local_file.original_name,
-                                                    relation)
+      Hydra::Works::AddExternalFileToFileSet.call(file_set,
+                                                  master_file_service_url,
+                                                  relation,
+                                                  versioning: false)
     end
 
     # Persist changes to the file_set
     file_set.save!
     file_set.in_works.each do |work|
-      work.pending_uploads.where(file_name: local_file.original_name)
+      work.pending_uploads.where(file_name: local_file.original_filename)
           .destroy_all
     end
 
     repository_file = file_set.send(relation)
 
     # Do post file ingest actions
-    CurationConcerns::VersioningService.create(repository_file, user)
+    Hyrax::VersioningService.create(repository_file, user)
 
     # Uses the stored binary, so only run if we are storing files
     CharacterizeJob.perform_later(file_set, repository_file.id) if store_files?
@@ -59,6 +58,10 @@ class IngestFileJob < ActiveJob::Base
   private
 
     def store_files?
-      Plum.config[:store_original_files]
+      Catorax.config[:store_original_files]
+    end
+
+    def master_file_service_url
+      Catorax.config[:master_file_service_url]
     end
 end
