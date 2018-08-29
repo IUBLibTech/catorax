@@ -4,6 +4,10 @@ module Catorax
     extend ActiveSupport::Concern
 
     included do
+      property :holding_location,
+               predicate: RDF::URI("http://id.loc.gov/ontologies/bibframe/heldBy"),
+               multiple: false
+
       property :physical_description,
                predicate: RDF::Vocab::MODS.physicalExtent,
                multiple: false
