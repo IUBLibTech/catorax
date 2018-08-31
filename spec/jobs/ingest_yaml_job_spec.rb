@@ -17,11 +17,8 @@ describe IngestYAMLJob do
       expect(PagedResource.last.file_sets.any?).to be true
     end
     it 'attaches a file to the created FileSet' do
-      pending
+      expect(IngestLocalFileJob).to receive(:perform_later)
       described_class.perform_now(paged_resource_yaml, user)
-      expect(PagedResource.last.file_sets.any?).to be true
-      file_set = PagedResource.last.file_sets.last; file_set.reload
-      expect(file_set.files.any?).to be true
     end
   end
 end

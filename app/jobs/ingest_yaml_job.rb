@@ -16,51 +16,44 @@ class IngestYAMLJob < ActiveJob::Base
 
   private
     def ingest
-      resource = @yaml[:resource].constantize.new
+      actor.create(actor_environment)
+    end
 
+    def actor
+      @actor ||= Hyrax::CurationConcern.actor
+    end
+
+    def actor_environment
+      Hyrax::Actors::Environment.new(curation_concern, current_ability, attributes_for_actor)
+    end
+
+    def curation_concern
+      @curation_concern ||= @yaml[:resource].constantize.new
+    end
+
+    def current_ability
+      @current_ability ||= Ability.new(@user)
+    end
+
+    def attributes_for_actor
+      attributes = {}
       if @yaml[:attributes].present?
-        @yaml[:attributes].each_value do |attributes|
-          resource.attributes = attributes
+        @yaml[:attributes].each_value do |yaml_attributes_set|
+          attributes.merge!(yaml_attributes_set)
         end
       end
-
-      if @yaml[:source_metadata].present?
-        resource.source_metadata = @yaml[:source_metadata]
-      end
-
-      # add thumbnail_path?
-      # add collections?
-      resource.save!
-
-      if @yaml[:files].present?
-        @yaml[:files].each do |file|
-          file_set = FileSet.new
-          file_set.attributes = file[:attributes] if file[:attributes].present?
-          file_set.save!
-
-          resource.ordered_members << file_set
-          resource.save
-
-          yaml_to_repo_map[file[:id]] = file_set.id
-          IngestLocalFileJob.perform_now(file_set, file[:path], @user)
-          # conditionally attach ocr
-        end
-      end
-
-      if @yaml[:structure].present?
-        @structure = map_fileids(@yaml[:structure]).to_json
-        SaveStructureJob.perform_now(resource, @structure)
-      end
+      attributes[:source_metadata] = @yaml[:source_metadata] if @yaml[:source_metadata].present?
+      attributes[:remote_files] = files_for_actor
+      attributes[:structure] = @yaml[:structure].deep_symbolize_keys if @yaml[:structure].present?
+      # TODO: user thumbnail_path, collections, sources
+      attributes
     end
 
-    def map_fileids(hsh)
-      hsh.each do |k, v|
-        hsh[k] = v.each { |node| map_fileids(node) } if k == :nodes
-        hsh[k] = yaml_to_repo_map[v] if k == :proxy
+    def files_for_actor
+      files = @yaml[:files]
+      files.each do |file|
+        file[:url] = 'file://' + Rails.root.join(file[:path]).to_s
       end
-    end
-
-    def yaml_to_repo_map
-      @yaml_to_repo_map ||= {}
+      files
     end
 end
