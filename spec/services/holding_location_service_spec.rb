@@ -5,7 +5,7 @@ RSpec.describe HoldingLocationService do
 
   let(:uri) { 'https://libraries.indiana.edu/music' }
   let(:contact_email) { 'libmus@indiana.edu' }
-  let(:label) { 'William & Gayle Cook Music Library' }
+  let(:term) { 'William & Gayle Cook Music Library' }
   let(:phone_number) { '(812) 855-2970' }
 
   context "with rights statements" do
@@ -14,7 +14,7 @@ RSpec.describe HoldingLocationService do
     end
 
     it "gets the label of a holding location" do
-      expect(service.find(uri).fetch('label')).to eq(label)
+      expect(service.find(uri).fetch('term')).to eq(term)
     end
 
     it "gets the phone number of a holding location" do
