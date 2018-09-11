@@ -1,6 +1,6 @@
-class HoldingLocationRenderer < Hyrax::Renderers::AttributeRenderer
+class HoldingLocationAttributeRenderer < Hyrax::Renderers::AttributeRenderer
   def initialize(value, options = {})
-    super(:location, value, options)
+    super(:holding_location, value, options)
   end
 
   def value_html
@@ -17,6 +17,7 @@ class HoldingLocationRenderer < Hyrax::Renderers::AttributeRenderer
     end
 
     def location_string(loc)
+      return unless loc
       contact_string = safe_join(['Contact at ',
                                   content_tag(:a,
                                               loc.fetch('contact_email'),
@@ -25,6 +26,6 @@ class HoldingLocationRenderer < Hyrax::Renderers::AttributeRenderer
                                   content_tag(:a,
                                               loc.fetch('phone_number'),
                                               href: "tel:#{loc.fetch('phone_number')}")])
-      safe_join([loc.fetch('label'), loc.fetch('address'), contact_string], tag(:br))
+      safe_join([loc.fetch('term'), loc.fetch('address'), contact_string], tag(:br))
     end
 end

@@ -7,7 +7,7 @@ module Hyrax
           logical_order_factory.new(logical_order, nil, logical_order_factory)
     end
     def holding_location
-      HoldingLocationRenderer.new(solr_document.holding_location).render
+      HoldingLocationAttributeRenderer.new(solr_document.holding_location).render_dl_row
     end
   end
 end

@@ -6,7 +6,9 @@ module Catorax
     included do
       property :holding_location,
                predicate: RDF::URI("http://id.loc.gov/ontologies/bibframe/heldBy"),
-               multiple: false
+               multiple: false do |index|
+                 index.as :stored_searchable, :facetable
+               end
 
       property :physical_description,
                predicate: RDF::Vocab::MODS.physicalExtent,

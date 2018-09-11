@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe HoldingLocationRenderer do
+RSpec.describe HoldingLocationAttributeRenderer do
   let(:uri) { 'http://rightsstatements.org/vocab/InC/1.0/' }
   let(:obj) {
     {
-      label: "Sample",
+      term: "Sample",
       phone_number: "123-456-7890",
       contact_email: "ex@example.org",
-      url: "https://bibdata.princeton.edu/locations/delivery_locations/1.json",
-      id: "https://bibdata.princeton.edu/locations/delivery_locations/1",
-      address: "Forrestal Campus Princeton, NJ 08544"
+      url: "https://bibdata.example.org/locations/delivery_locations/1.json",
+      id: "https://bibdata.example.org/locations/delivery_locations/1",
+      address: "Example Campus Delivery"
     }
   }
   let(:rendered) { described_class.new(uri).render }
@@ -26,7 +26,7 @@ RSpec.describe HoldingLocationRenderer do
       expect(rendered).to include('Sample')
       expect(rendered).to include('ex@example.org')
       expect(rendered).to include('123-456-7890')
-      expect(rendered).to include('Forrestal Campus')
+      expect(rendered).to include('Example Campus')
     end
   end
 end
