@@ -15,3 +15,11 @@
  *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
  *= require_self
  */
+
+// Third-party / vendor styles
+@import 'jquery-ui/selectable';
+@import 'jquery-ui/sortable';
+@import 'browse_everything';
+
+// Catorax specific styles
+@import 'components/structure_editor';
