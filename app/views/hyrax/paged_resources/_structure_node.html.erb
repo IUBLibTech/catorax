@@ -22,9 +22,9 @@
       <% if node.proxy_for_id %>
         <div class="panel-body">
 <%# FIXME: FileSet presenter has no method for thumbnail_id? %>
-          <%# osd_modal_for(node.proxy_for_object.thumbnail_id) do %>
-            <%# render_thumbnail_tag(node.proxy_for_object, onerror: default_icon_fallback)%>
-          <%# end %>
+          <% osd_modal_for(node.proxy_for_object.thumbnail_id) do %>
+            <% render_thumbnail_tag(node.proxy_for_object, onerror: default_icon_fallback)%>
+          <% end %>
         </div>
       <% end %>
     </div>

@@ -24,7 +24,7 @@ RSpec.describe 'hyrax/paged_resources/structure' do
       build_file_set(id: "b", to_s: "banana")
     ]
   end
-  let(:scanned_resource) {
+  let(:paged_resource) {
 
     Hyrax::PagedResourcePresenter.new(
       SolrDocument.new(PagedResource.new(id: "test").to_solr), nil
@@ -32,9 +32,9 @@ RSpec.describe 'hyrax/paged_resources/structure' do
   }
 
   def build_file_set(id:, to_s:)
-    i = instance_double(Hyrax::FileSetPresenter,
+    i = instance_double(FileSetPresenter,
                         id: id,
-                        #thumbnail_id: id,
+                        thumbnail_id: id,
                         to_s: to_s,
                         collection?: false)
     #allow(IIIFPath).to receive(:new).with(id) \
@@ -43,9 +43,9 @@ RSpec.describe 'hyrax/paged_resources/structure' do
   end
 
   before do
-    #stub_blacklight_views
+    stub_blacklight_views
     assign(:logical_order, logical_order)
-    assign(:presenter, scanned_resource)
+    assign(:presenter, paged_resource)
     render
   end
   it "renders a li per node" do
@@ -64,7 +64,7 @@ RSpec.describe 'hyrax/paged_resources/structure' do
     expect(rendered).to have_selector("li[data-proxy='b']")
   end
   context "when given a multi volume work" do
-    let(:mv_scanned_resource) {
+    let(:mv_paged_resource) {
       MultiVolumeWorkShowPresenter.new(
         SolrDocument.new(MultiVolumeWork.new(id: "test").to_solr), nil
       )
