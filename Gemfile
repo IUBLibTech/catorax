@@ -9,7 +9,10 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.6'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+group :development, :test do
+  gem 'sqlite3'
+end
+gem 'mysql2'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
@@ -46,7 +49,10 @@ group :development, :test do
   gem 'solr_wrapper', '>= 0.3'
   gem 'fcrepo_wrapper'
   gem 'rspec-rails'
+  gem 'rspec_junit_formatter'
   gem 'rails-controller-testing'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
@@ -64,6 +70,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'hyrax'
+gem 'active-fedora', '11.5.2'
 gem 'rsolr'
 gem 'jquery-rails'
 gem 'devise'
@@ -73,4 +80,6 @@ gem 'omniauth'
 gem 'omniauth-cas'
 gem 'ldap_groups_lookup', '~> 0.4.0'
 gem 'hydra-role-management'
-gem 'riiif'
+gem 'riiif', '~> 2.0'
+gem 'marc', '~> 1.0.0'
+gem 'sidekiq'

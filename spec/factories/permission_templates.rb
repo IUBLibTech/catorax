@@ -68,7 +68,7 @@ FactoryBot.modify do
   class AccessHelper
     def self.create_access(permission_template_id, agent_type, access, agent_ids)
       agent_ids.each do |agent_id|
-        FactoryGirl.create(:permission_template_access,
+        FactoryBot.create(:permission_template_access,
                           access,
                           permission_template: permission_template_id,
                           agent_type: agent_type,
