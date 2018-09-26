@@ -70,7 +70,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'hyrax'
-gem 'active-fedora', '11.5.2'
 gem 'rsolr'
 gem 'jquery-rails'
 gem 'devise'
