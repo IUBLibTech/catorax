@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "curation_concerns/base/structure" do
+RSpec.describe "hyrax/paged_resources/structure.html.erb", type: :view do
   let(:logical_order) do
     WithProxyForObject::Factory.new(members).new(params)
   end
@@ -24,27 +24,21 @@ RSpec.describe "curation_concerns/base/structure" do
       build_file_set(id: "b", to_s: "banana")
     ]
   end
-  let(:scanned_resource) {
-    ScannedResourceShowPresenter.new(
-      SolrDocument.new(ScannedResource.new(id: "test").to_solr), nil
+  let(:paged_resource) {
+    Hyrax::PagedResourcePresenter.new(
+      SolrDocument.new(PagedResource.new(id: "test").to_solr), nil
     )
   }
 
   def build_file_set(id:, to_s:)
-    i = instance_double(FileSetPresenter,
-                        id: id,
-                        thumbnail_id: id,
-                        to_s: to_s,
-                        collection?: false)
-    allow(IIIFPath).to receive(:new).with(id) \
-                                    .and_return(instance_double(IIIFPath, thumbnail: nil))
-    i
+    endpoint = IIIFManifest::IIIFEndpoint.new('info_url', profile: Hyrax.config.iiif_image_compliance_level_uri)
+    display_image = IIIFManifest::DisplayImage.new('display_url', width: 640, height: 480, iiif_endpoint: endpoint)
+    instance_double(Hyrax::FileSetPresenter, id: id, display_image: display_image)
   end
 
   before do
-    stub_blacklight_views
     assign(:logical_order, logical_order)
-    assign(:presenter, scanned_resource)
+    assign(:presenter, paged_resource)
     render
   end
   it "renders a li per node" do
@@ -62,9 +56,9 @@ RSpec.describe "curation_concerns/base/structure" do
   it "renders unstructured nodes" do
     expect(rendered).to have_selector("li[data-proxy='b']")
   end
-  context "when given a multi volume work" do
-    let(:scanned_resource) {
-      MultiVolumeWorkShowPresenter.new(
+  pending "when given a multi volume work" do
+    let(:paged_resource) {
+      Hyrax::MultiVolumeWorkPresenter.new(
         SolrDocument.new(MultiVolumeWork.new(id: "test").to_solr), nil
       )
     }
