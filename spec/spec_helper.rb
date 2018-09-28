@@ -76,6 +76,9 @@ RSpec.configure do |config|
     ActiveJob::Base.queue_adapter.perform_enqueued_jobs    = false
     ActiveJob::Base.queue_adapter.perform_enqueued_at_jobs = false
   end
+  
+  #config.include(ControllerLevelHelpers, type: :view)
+  #config.before(:each, type: :view) { initialize_controller_helpers(view) }
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
